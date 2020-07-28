@@ -1,0 +1,7 @@
+#spring:
+#  application:
+#    name: spring-cloud-member-service-nacos
+#  cloud:
+#    nacos:
+#      discovery:
+#        server-addr: 127.0.0.1:8849,91.216.169.205:8849 #naocs配置中心地址  91.216.169.246  205 239

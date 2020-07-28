@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: spring-cloud-admin-monitor
+  security: # 配置登录用户名和密码
+    user:
+      name: admin
+      password: admin123456
+  boot:  # 不显示admin-server的监控信息
+    admin:
+      discovery:
+        ignored-services: ${spring.application.name}
+server:
+  port: 8101
+
+
+management:
+  health:
+    mail:
+      enabled: false
+
+logging:
+  path: /var/logs/ #添加开启admin的日志监控

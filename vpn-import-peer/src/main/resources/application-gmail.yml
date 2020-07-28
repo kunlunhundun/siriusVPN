@@ -1,0 +1,23 @@
+spring:
+  mail:
+    host: smtp.gmail.com #SMTP服务器地址
+    port: 465    #587
+    username: service@siriusvpn.com   #kunlunhundun@gmail.com    #kunlunhundun #登陆账号
+    password: asian4you  #登陆密码（或授权码）
+    properties:
+      from: service@siriusvpn.com #邮件发信人（即真实邮箱）
+
+#qq dengdeng
+#  spring.mail.properties.mail.smtp.auth=true
+#  spring.mail.properties.mail.smtp.ssl.enable=true
+#  spring.mail.properties.mail.smtp.socketFactory.class=javax.net.ssl.SSLSocketFactory
+#  #换成公司企业邮箱报错，通过将properties文件的内容修改（下面两个改成false）就可以了，这里的用户密码就是自己的邮箱密码(这点不同于qq邮箱)
+#  spring.mail.properties.mail.smtp.starttls.enable=true
+#  spring.mail.properties.mail.smtp.starttls.required=true
+
+#gmail
+#spring.mail.properties.mail.smtp.auth: true
+#spring.mail.properties.mail.smtp.starttls.enable: true
+#spring.mail.properties.mail.smtp.starttls.required: true
+#spring.mail.properties.mail.smtp.ssl.enable: true
+#spring.mail.test-connection:true

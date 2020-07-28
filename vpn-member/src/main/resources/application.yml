@@ -1,0 +1,94 @@
+spring:
+  servlet:
+    multipart:
+      enabled: true #开启文件上传
+      max-file-size: 100MB #限制文件上传大小为10M
+      max-request-size: 100MB
+      file-size-threshold: 100MB
+  profiles:
+    active: prod-246,gmail #dev #默认为开发环境
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+    serialization:
+      write-dates-as-timestamps: false
+  resources:
+    static-locations:
+      classpath:/META-INF/resources/,classpath:/resources/\
+      , classpath:/static/, classpath:/public/, classpath:/static/img
+
+management: #开启SpringBoot Admin的监控
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+  health:
+    mail:
+      enabled: false
+
+java:
+  compile: none
+
+mybatis:
+  mapper-locations:
+    - classpath:dao/*.xml
+    - classpath*:com/**/mapper/*.xml
+
+jwt:
+  tokenHeader: Authorization #JWT存储的请求头
+  secret: sirius-secret #JWT加解密使用的密钥
+  expiration: 604800 #JWT的超期限时间(60*60*24*7)
+  tokenHead: Bearer  #JWT负载中拿到开头
+
+
+secure:
+  ignored:
+    urls: #安全路径白名单
+      - /swagger-ui.html
+      - /swagger-resources/**
+      - /swagger/**
+      - /**/v2/api-docs
+      - /**/*.js
+      - /**/*.css
+      - /**/*.png
+      - /**/*.jpg
+      - /**/*.html
+      - /**/*.ico
+      - /webjars/springfox-swagger-ui/**
+      - /druid/**
+      - /actuator/**
+      - /sso/**
+      - /home/**
+      - /mail/**
+      - /comment/**
+      - /update/**
+      - /minio/**
+
+# 自定义redis key
+redis:
+  database: vpn
+  key:
+    authCode: 'ums:authCode'
+    orderId: 'oms:orderId'
+    member: 'ums:member'
+    expireDay: 'ums:expireDay'
+    expireToken: 'ums:expireToken'
+    emailAuthCode: 'ums:emailAuthCode'
+
+  expire:
+    authCode: 90 # 验证码超期时间
+    emailAuthCode: 180 # 邮箱验证码超期时间
+    common: 86400 # 24小时
+    logintoken: 2592000 # 24小时*30 登录token 30天的有效期
+
+
+
+# 消息队列定义
+rabbitmq:
+  queue:
+    name:
+      cancelOrder: cancelOrderQueue
+

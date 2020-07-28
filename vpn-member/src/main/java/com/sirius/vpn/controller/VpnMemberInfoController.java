@@ -1,0 +1,123 @@
+package com.sirius.vpn.controller;
+
+import com.google.common.collect.ImmutableBiMap;
+import com.sirius.vpn.common.api.CommonResult;
+import com.sirius.vpn.domain.VpnMemberInfo;
+import com.sirius.vpn.model.UmsVpnSs;
+import com.sirius.vpn.model.UmsVpnWireguard;
+import com.sirius.vpn.service.UmsMemberService;
+import com.sirius.vpn.service.UmsVpnMachinesService;
+import com.sirius.vpn.service.UmsVpnSSService;
+import com.sirius.vpn.service.UmsVpnWireguardService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@Controller
+@Api(tags = "VpnMemberInfoController", description = "vpn信息管理")
+@RequestMapping("/vpnInfo")
+public class VpnMemberInfoController {
+
+    @Autowired
+    UmsVpnSSService ssService;
+
+    @Autowired
+    UmsVpnWireguardService wireguardService;
+
+    @Autowired
+    UmsMemberService memberService;
+
+    //每台机器的vpn 用户名
+    @Autowired
+    UmsVpnMachinesService machinesService;
+
+    @ApiOperation("获取所有ss线路")
+    @RequestMapping(value = "/getLineSS",method = {RequestMethod.GET,RequestMethod.POST})
+    @ResponseBody
+    public CommonResult getLineSS(@RequestParam String username) {
+
+      List<UmsVpnSs> vpnSsList = ssService.list(1, 10);
+      Map<String,Object> map = new HashMap<>();
+      map.put("wireguardList",vpnSsList);
+      return  CommonResult.success(map);
+    }
+
+    @ApiOperation("获取所有wireguard线路")
+    @RequestMapping(value = "/getLineWireguard",method = {RequestMethod.GET,RequestMethod.POST})
+    @ResponseBody
+    public CommonResult getLineWireguard(@RequestParam String username) {
+       // List<UmsVpnWireguard> wireguardList = wireguardService.list(1,10);
+        List<Map<String,Object>> wireguardMap = machinesService.getWireGuardLine();
+        Map<String,Object> map = new HashMap<>();
+        map.put("wireguardList",wireguardMap);
+        return  CommonResult.success(map);
+    }
+
+
+    @ApiOperation("获取vpn列表信息")
+    @RequestMapping(value = "/allVpnLine",method = {RequestMethod.GET,RequestMethod.POST})
+    @ResponseBody
+    public CommonResult vpnListInfo(@RequestParam String userName) {
+        VpnMemberInfo memberInfo = memberService.getMemberInfo();
+        // UmsMember member = memberService.getCurrentMember();
+        return CommonResult.success(memberInfo);
+    }
+
+
+    @ApiOperation("vpn连接成功")
+    @RequestMapping(value = "/connected",method = {RequestMethod.GET,RequestMethod.POST})
+    @ApiImplicitParam(name = "connectType", value = "1->ss；2->wireguard;3->openvpn",
+            defaultValue = "1", allowableValues = "1,2,3",  dataType = "integer")
+    @ResponseBody
+    public CommonResult connected(@RequestParam(value = "connectType", defaultValue = "2") Integer connectType,
+                                         @RequestParam String id, @RequestParam String serviceId) {
+
+       int ret = memberService.connected(connectType, Long.valueOf(id));
+        if (ret >= 0) {
+            return  CommonResult.success(ret);
+        }
+        return  CommonResult.failed();
+    }
+
+
+    @ApiOperation("vpn断开成功")
+    @RequestMapping(value = "/disConnect",method = {RequestMethod.GET,RequestMethod.POST})
+    @ApiImplicitParam(name = "connectType", value = "1->ss；2->wireguard;3->openvpn",
+            defaultValue = "1", allowableValues = "1,2,3",  dataType = "integer")
+    @ResponseBody
+    public CommonResult disConnect(@RequestParam(value = "connectType", defaultValue = "2") Integer connectType,
+                                  @RequestParam String id, @RequestParam String serviceId) {
+
+        int ret = memberService.disConnect(connectType,Long.valueOf(id));
+        if (ret >= 0) {
+            return  CommonResult.success(ret);
+        }
+        return  CommonResult.failed();
+    }
+
+    @ApiOperation("vpn断开成功")
+    @RequestMapping(value = "/filterApp",method = {RequestMethod.GET,RequestMethod.POST})
+    @ApiImplicitParam(name = "filterType", value = "1->all app；2->black app;3->allow app",
+            defaultValue = "1", allowableValues = "1,2,3",  dataType = "integer")
+
+    @ResponseBody
+    public CommonResult filterApp(@RequestParam(value = "filterType", defaultValue = "1") Integer filterType,
+                                  @ApiParam(name="appName",value="app名,多个app逗号隔开") String appName) {
+
+        memberService.filterApp(filterType,appName);
+        return  CommonResult.success("success");
+    }
+
+
+}
