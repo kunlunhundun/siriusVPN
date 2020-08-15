@@ -158,6 +158,8 @@ INSERT INTO `ums_member_level` VALUES ('3', '黄金会员', '1000', '0', '89.00'
 INSERT INTO `ums_member_level` VALUES ('2', '普通会员', '1000', '0', '49.00');
 INSERT INTO `ums_member_level` VALUES ('1', '试用期会员', '1000', '0', '0.00');
 
+INSERT INTO `ums_member_level` VALUES ('6', '天地会员', '1000', '0', '189.00');
+
 
 -- ----------------------------
 -- Table structure for ums_member_login_log

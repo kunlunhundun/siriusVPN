@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class UmsVpnMachinesServiceImpl implements UmsVpnMachinesService {
@@ -80,11 +81,23 @@ public class UmsVpnMachinesServiceImpl implements UmsVpnMachinesService {
         } */
 
        UmsVpnServiceExample example = new UmsVpnServiceExample();
+       example.createCriteria().andDeleteStatusNotEqualTo(1);
+       example.setOrderByClause("line_name desc");
        List<UmsVpnService> vpnServiceList = serviceMapper.selectByExample(example);
-       List<Map<String,Object>> lists = new ArrayList<>();
+        List<UmsVpnService> usaList = new ArrayList<>();
+        // usaList = vpnServiceList.stream().filter(vpnService -> vpnService.getLineName().toLowerCase().contains("usa")).collect(Collectors.toList());
+        for (int i = 0; i< vpnServiceList.size(); i++) {
+            UmsVpnService vpnService = vpnServiceList.get(i);
+            if (vpnService.getLineName().toLowerCase().contains("tik")) {
+                usaList.add(vpnService);
+            }
+        }
+        vpnServiceList.removeAll(usaList);
+        vpnServiceList.addAll(0,usaList);
+        usaList.clear();
+        List<Map<String,Object>> lists = new ArrayList<>();
        for (int i = 0; i< vpnServiceList.size(); i++) {
            UmsVpnService vpnService = vpnServiceList.get(i);
-
            PageHelper.startPage(0, 10);
            UmsVpnWireguardExample wireguardExample = new UmsVpnWireguardExample();
            wireguardExample.createCriteria()

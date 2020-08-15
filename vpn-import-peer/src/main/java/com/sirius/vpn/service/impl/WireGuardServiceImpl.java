@@ -78,6 +78,17 @@ public class WireGuardServiceImpl implements WireGuardService {
     }
 
 
+    public int updateVpnServiceDeleteStatue(String ip ,int deleteStatus) {
+        UmsVpnServiceExample example = new UmsVpnServiceExample();
+        example.createCriteria().andIpEqualTo(ip);
+        UmsVpnService vpnService = new UmsVpnService();
+        vpnService.setIp(ip);
+        vpnService.setDeleteStatus(deleteStatus);
+        int result = vpnServiceMapper.updateByExampleSelective(vpnService,example);
+        return result;
+    }
+
+    @Override
     public int updateVpnServiceLineName(String ip ,String lineName) {
         UmsVpnServiceExample example = new UmsVpnServiceExample();
         example.createCriteria().andIpEqualTo(ip);

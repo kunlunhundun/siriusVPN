@@ -17,6 +17,20 @@ public interface WireGuardService {
     int importVpnService(String ip, String lineName);
 
 
+    /**
+     * 通过IP 来修改线路名
+     * @param ip
+     * @param lineName
+     */
+    int updateVpnServiceLineName(String ip ,String lineName);
+
+    /**
+     *  通过ip来修改这台服务的线上是否可用， 1 删除不用这台服务 0 为可用
+     * @param ip
+     * @param deleteStatus
+     */
+    int updateVpnServiceDeleteStatue(String ip ,int deleteStatus);
+
     String getServiceId();
 
     String getVpnServiceId(String ip);

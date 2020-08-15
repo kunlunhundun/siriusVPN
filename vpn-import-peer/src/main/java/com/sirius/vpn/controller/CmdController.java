@@ -1,7 +1,9 @@
 package com.sirius.vpn.controller;
 
 
+import com.sirius.vpn.common.api.CommonResult;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -43,5 +45,32 @@ public class CmdController {
          vpnConnectStatusService.importVpnDataFromConf();
         return "导入成功";
     }
+
+    @ApiOperation("vpn 线路删除或上架")
+    @RequestMapping(value = "/updateVpnStatus",method = {RequestMethod.GET,RequestMethod.POST})
+    @ApiImplicitParam(name = "deleteStatus", value = "0 上架；1->删除",
+            defaultValue = "0", allowableValues = "0,1",  dataType = "integer")
+    @ResponseBody
+    public CommonResult updateVpnStatus(@RequestParam(value = "deleteStatus", defaultValue = "0") Integer deleteStatus, @RequestParam String ip) {
+
+        int ret = wireGuardService.updateVpnServiceDeleteStatue(ip,deleteStatus);
+        if (ret >= 0) {
+            return  CommonResult.success(ret);
+        }
+        return  CommonResult.failed();
+    }
+
+    @ApiOperation("vpn 修改线路名")
+    @RequestMapping(value = "/updateVpnLineName",method = {RequestMethod.GET,RequestMethod.POST})
+    @ResponseBody
+    public CommonResult updateVpnLineName(@RequestParam String ip,@RequestParam String lineName) {
+
+        int ret = wireGuardService.updateVpnServiceLineName(ip,lineName);
+        if (ret >= 0) {
+            return  CommonResult.success(ret);
+        }
+        return  CommonResult.failed();
+    }
+
 
 }
