@@ -106,18 +106,20 @@ public class VpnMemberInfoController {
         return  CommonResult.failed();
     }
 
-    @ApiOperation("vpn断开成功")
+    @ApiOperation("vpn过滤了哪些App")
     @RequestMapping(value = "/filterApp",method = {RequestMethod.GET,RequestMethod.POST})
     @ApiImplicitParam(name = "filterType", value = "1->all app；2->black app;3->allow app",
             defaultValue = "1", allowableValues = "1,2,3",  dataType = "integer")
 
     @ResponseBody
     public CommonResult filterApp(@RequestParam(value = "filterType", defaultValue = "1") Integer filterType,
-                                  @ApiParam(name="appName",value="app名,多个app逗号隔开") String appName) {
+                                  @ApiParam(name="appName",value="app名,多个app逗号隔开") String appName,
+                                   @ApiParam(name="installAppNames",value="安装过的app名,多个app逗号隔开") String installAppNames) {
 
-        memberService.filterApp(filterType,appName);
+        memberService.filterApp(filterType,appName,installAppNames);
         return  CommonResult.success("success");
     }
+
 
 
 }

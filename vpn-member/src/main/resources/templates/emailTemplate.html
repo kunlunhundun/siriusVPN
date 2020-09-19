@@ -17,15 +17,22 @@
 
       .container {
           width: 800px;
-          margin: 50px auto;
+          margin: 40px auto;
       }
 
       .header {
-          height: 80px;
-          background-color: #49bcff;
+          height: 60px;
+          background-color: #067679;
           border-top-left-radius: 5px;
           border-top-right-radius: 5px;
          
+      }
+      .header div {
+        color: white;
+        line-height: 60px;
+        padding-left: 30px;
+        font-weight: 600;
+        font-size: 26px;
       }
 
       .header h2 {
@@ -48,16 +55,22 @@
       .content p {
           padding-top: 10px;
       }
+      .content .reply-email {
+          color: #067679;
+      }
 
       .footer {
-          background-color: #fff;
+          background-color: #067679;
           border-bottom-left-radius: 5px;
           border-bottom-right-radius: 5px;
-          padding: 35px;
+          line-height: 50px;
+          padding-left: 30px;
       }
       .footer p {
-          color: #747474;
-          padding-top: 10px;
+          color: #fff;
+      }
+      .footer span {
+          color: #fff;
       }
   </style>
 
@@ -65,7 +78,7 @@
   <body>
       <div class="container">
           <div class="header">
-              <img src="https://trustsonic.com:8080/img/icon_logo.jpg" width="800px" height="80px" />
+              <div class="header-content">CattleVPN</div>
           </div>
           <div class="content">
 			  <p/>
@@ -74,15 +87,14 @@
               <p></p>
               <p><b><span th:text="${code}"></span></b></p>
               <p></p>
-              <p>If you think this email was sent incorrectly, </p>
-              <p>Please reply or email SiriusVPN support: <b>service@siriusvpn.com</b></p>
+              <p>Any problem please reply to : <span class="reply-email">kunlunhundun@gmail.com</span></p>
 			  <p/>
 			  <p/>
 			  <p>Thanks,
-			  <p>The Siriusvpn Team<p/>
+			  <p>The CattleVPN Team<p/>
           </div>
           <div class="footer">
-              <p> © 2010-2020 The Sirius International Ltd.</p>
+              <p> © Copyright CattleVPN <span>2012-2020</span> All Right Reserved</p>
           </div>
       </div>
   </body>

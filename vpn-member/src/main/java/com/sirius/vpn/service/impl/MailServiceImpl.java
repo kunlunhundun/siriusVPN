@@ -212,7 +212,7 @@ public class MailServiceImpl implements MailService {
     //获取邮件发信人
     public String getMailSendFrom() {
 
-        String fromUser =  "service@siriusvpn.com";
+        String fromUser = "kunlunhundun@gmail.com"; //"service@syrinxvpn.com";
         logger.info("getmailsendFrom---->>>>" + fromUser + "\n");
         return fromUser;
     }

@@ -1,0 +1,338 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sirius.vpn.mapper.DataIp20200801OverseasMapper">
+  <resultMap id="BaseResultMap" type="com.sirius.vpn.model.DataIp20200801Overseas">
+    <result column="ip_start" jdbcType="VARCHAR" property="ipStart" />
+    <result column="ip_end" jdbcType="VARCHAR" property="ipEnd" />
+    <result column="num_start" jdbcType="BIGINT" property="numStart" />
+    <result column="num_end" jdbcType="BIGINT" property="numEnd" />
+    <result column="num" jdbcType="INTEGER" property="num" />
+    <result column="land" jdbcType="VARCHAR" property="land" />
+    <result column="region" jdbcType="VARCHAR" property="region" />
+    <result column="city" jdbcType="VARCHAR" property="city" />
+    <result column="area" jdbcType="VARCHAR" property="area" />
+    <result column="country" jdbcType="VARCHAR" property="country" />
+    <result column="country_english" jdbcType="VARCHAR" property="countryEnglish" />
+    <result column="isp" jdbcType="VARCHAR" property="isp" />
+    <result column="country_id" jdbcType="VARCHAR" property="countryId" />
+    <result column="international_code" jdbcType="VARCHAR" property="internationalCode" />
+    <result column="region_id" jdbcType="VARCHAR" property="regionId" />
+    <result column="city_id" jdbcType="VARCHAR" property="cityId" />
+    <result column="area_id" jdbcType="VARCHAR" property="areaId" />
+    <result column="lat" jdbcType="VARCHAR" property="lat" />
+    <result column="lng" jdbcType="VARCHAR" property="lng" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    ip_start, ip_end, num_start, num_end, num, land, region, city, area, country, country_english, 
+    isp, country_id, international_code, region_id, city_id, area_id, lat, lng
+  </sql>
+  <select id="selectByExample" parameterType="com.sirius.vpn.model.DataIp20200801OverseasExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from data_ip_20200801_overseas
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <delete id="deleteByExample" parameterType="com.sirius.vpn.model.DataIp20200801OverseasExample">
+    delete from data_ip_20200801_overseas
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.sirius.vpn.model.DataIp20200801Overseas">
+    insert into data_ip_20200801_overseas (ip_start, ip_end, num_start, 
+      num_end, num, land, region, 
+      city, area, country, 
+      country_english, isp, country_id, 
+      international_code, region_id, city_id, 
+      area_id, lat, lng)
+    values (#{ipStart,jdbcType=VARCHAR}, #{ipEnd,jdbcType=VARCHAR}, #{numStart,jdbcType=BIGINT}, 
+      #{numEnd,jdbcType=BIGINT}, #{num,jdbcType=INTEGER}, #{land,jdbcType=VARCHAR}, #{region,jdbcType=VARCHAR}, 
+      #{city,jdbcType=VARCHAR}, #{area,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, 
+      #{countryEnglish,jdbcType=VARCHAR}, #{isp,jdbcType=VARCHAR}, #{countryId,jdbcType=VARCHAR}, 
+      #{internationalCode,jdbcType=VARCHAR}, #{regionId,jdbcType=VARCHAR}, #{cityId,jdbcType=VARCHAR}, 
+      #{areaId,jdbcType=VARCHAR}, #{lat,jdbcType=VARCHAR}, #{lng,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.sirius.vpn.model.DataIp20200801Overseas">
+    insert into data_ip_20200801_overseas
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="ipStart != null">
+        ip_start,
+      </if>
+      <if test="ipEnd != null">
+        ip_end,
+      </if>
+      <if test="numStart != null">
+        num_start,
+      </if>
+      <if test="numEnd != null">
+        num_end,
+      </if>
+      <if test="num != null">
+        num,
+      </if>
+      <if test="land != null">
+        land,
+      </if>
+      <if test="region != null">
+        region,
+      </if>
+      <if test="city != null">
+        city,
+      </if>
+      <if test="area != null">
+        area,
+      </if>
+      <if test="country != null">
+        country,
+      </if>
+      <if test="countryEnglish != null">
+        country_english,
+      </if>
+      <if test="isp != null">
+        isp,
+      </if>
+      <if test="countryId != null">
+        country_id,
+      </if>
+      <if test="internationalCode != null">
+        international_code,
+      </if>
+      <if test="regionId != null">
+        region_id,
+      </if>
+      <if test="cityId != null">
+        city_id,
+      </if>
+      <if test="areaId != null">
+        area_id,
+      </if>
+      <if test="lat != null">
+        lat,
+      </if>
+      <if test="lng != null">
+        lng,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="ipStart != null">
+        #{ipStart,jdbcType=VARCHAR},
+      </if>
+      <if test="ipEnd != null">
+        #{ipEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="numStart != null">
+        #{numStart,jdbcType=BIGINT},
+      </if>
+      <if test="numEnd != null">
+        #{numEnd,jdbcType=BIGINT},
+      </if>
+      <if test="num != null">
+        #{num,jdbcType=INTEGER},
+      </if>
+      <if test="land != null">
+        #{land,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null">
+        #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null">
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="area != null">
+        #{area,jdbcType=VARCHAR},
+      </if>
+      <if test="country != null">
+        #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="countryEnglish != null">
+        #{countryEnglish,jdbcType=VARCHAR},
+      </if>
+      <if test="isp != null">
+        #{isp,jdbcType=VARCHAR},
+      </if>
+      <if test="countryId != null">
+        #{countryId,jdbcType=VARCHAR},
+      </if>
+      <if test="internationalCode != null">
+        #{internationalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="regionId != null">
+        #{regionId,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null">
+        #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="areaId != null">
+        #{areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="lat != null">
+        #{lat,jdbcType=VARCHAR},
+      </if>
+      <if test="lng != null">
+        #{lng,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.sirius.vpn.model.DataIp20200801OverseasExample" resultType="java.lang.Long">
+    select count(*) from data_ip_20200801_overseas
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update data_ip_20200801_overseas
+    <set>
+      <if test="record.ipStart != null">
+        ip_start = #{record.ipStart,jdbcType=VARCHAR},
+      </if>
+      <if test="record.ipEnd != null">
+        ip_end = #{record.ipEnd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.numStart != null">
+        num_start = #{record.numStart,jdbcType=BIGINT},
+      </if>
+      <if test="record.numEnd != null">
+        num_end = #{record.numEnd,jdbcType=BIGINT},
+      </if>
+      <if test="record.num != null">
+        num = #{record.num,jdbcType=INTEGER},
+      </if>
+      <if test="record.land != null">
+        land = #{record.land,jdbcType=VARCHAR},
+      </if>
+      <if test="record.region != null">
+        region = #{record.region,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null">
+        city = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.area != null">
+        area = #{record.area,jdbcType=VARCHAR},
+      </if>
+      <if test="record.country != null">
+        country = #{record.country,jdbcType=VARCHAR},
+      </if>
+      <if test="record.countryEnglish != null">
+        country_english = #{record.countryEnglish,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isp != null">
+        isp = #{record.isp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.countryId != null">
+        country_id = #{record.countryId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.internationalCode != null">
+        international_code = #{record.internationalCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.regionId != null">
+        region_id = #{record.regionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityId != null">
+        city_id = #{record.cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.areaId != null">
+        area_id = #{record.areaId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lat != null">
+        lat = #{record.lat,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lng != null">
+        lng = #{record.lng,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update data_ip_20200801_overseas
+    set ip_start = #{record.ipStart,jdbcType=VARCHAR},
+      ip_end = #{record.ipEnd,jdbcType=VARCHAR},
+      num_start = #{record.numStart,jdbcType=BIGINT},
+      num_end = #{record.numEnd,jdbcType=BIGINT},
+      num = #{record.num,jdbcType=INTEGER},
+      land = #{record.land,jdbcType=VARCHAR},
+      region = #{record.region,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR},
+      area = #{record.area,jdbcType=VARCHAR},
+      country = #{record.country,jdbcType=VARCHAR},
+      country_english = #{record.countryEnglish,jdbcType=VARCHAR},
+      isp = #{record.isp,jdbcType=VARCHAR},
+      country_id = #{record.countryId,jdbcType=VARCHAR},
+      international_code = #{record.internationalCode,jdbcType=VARCHAR},
+      region_id = #{record.regionId,jdbcType=VARCHAR},
+      city_id = #{record.cityId,jdbcType=VARCHAR},
+      area_id = #{record.areaId,jdbcType=VARCHAR},
+      lat = #{record.lat,jdbcType=VARCHAR},
+      lng = #{record.lng,jdbcType=VARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

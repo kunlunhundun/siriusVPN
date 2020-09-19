@@ -495,6 +495,76 @@ public class UmsMemberFilterAppExample {
             return (Criteria) this;
         }
 
+        public Criteria andInstallAppIsNull() {
+            addCriterion("install_app is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstallAppIsNotNull() {
+            addCriterion("install_app is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstallAppEqualTo(String value) {
+            addCriterion("install_app =", value, "installApp");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstallAppNotEqualTo(String value) {
+            addCriterion("install_app <>", value, "installApp");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstallAppGreaterThan(String value) {
+            addCriterion("install_app >", value, "installApp");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstallAppGreaterThanOrEqualTo(String value) {
+            addCriterion("install_app >=", value, "installApp");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstallAppLessThan(String value) {
+            addCriterion("install_app <", value, "installApp");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstallAppLessThanOrEqualTo(String value) {
+            addCriterion("install_app <=", value, "installApp");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstallAppLike(String value) {
+            addCriterion("install_app like", value, "installApp");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstallAppNotLike(String value) {
+            addCriterion("install_app not like", value, "installApp");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstallAppIn(List<String> values) {
+            addCriterion("install_app in", values, "installApp");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstallAppNotIn(List<String> values) {
+            addCriterion("install_app not in", values, "installApp");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstallAppBetween(String value1, String value2) {
+            addCriterion("install_app between", value1, value2, "installApp");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstallAppNotBetween(String value1, String value2) {
+            addCriterion("install_app not between", value1, value2, "installApp");
+            return (Criteria) this;
+        }
+
         public Criteria andLoginTypeIsNull() {
             addCriterion("login_type is null");
             return (Criteria) this;

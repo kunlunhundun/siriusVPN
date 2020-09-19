@@ -6,7 +6,7 @@ spring:
       max-request-size: 100MB
       file-size-threshold: 100MB
   profiles:
-    active: prod-246,gmail #dev #默认为开发环境
+    active: prod,gmail #dev #默认为开发环境
   jackson:
     date-format: yyyy-MM-dd HH:mm:ss
     time-zone: GMT+8

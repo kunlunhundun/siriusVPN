@@ -105,6 +105,7 @@ public interface UmsMemberService {
     /**
      * 客户选择了那些app
      */
-    void filterApp(Integer filterType, String appName);
+    void filterApp(Integer filterType, String appName, String installAppNames);
+
 
 }

@@ -76,6 +76,11 @@ public class UmsMemberServiceImpl implements UmsMemberService {
     @Autowired
     UmsMemberFilterAppMapper memberFilterAppMapper;
 
+    @Autowired
+    UmsMemberLoginFromIpMapper memberLoginFromIpMapper;
+
+    @Autowired
+    DataIp20200801OverseasMapper dataIp20200801OverseasMapper;
 
     @Override
     public UmsMember getByUsername(String username) {
@@ -518,7 +523,7 @@ public class UmsMemberServiceImpl implements UmsMemberService {
 
 
     @Override
-    public void filterApp(Integer filterType, String appName) {
+    public void filterApp(Integer filterType, String appName, String installAppNames){
 
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         HttpServletRequest request = attributes.getRequest();
@@ -536,31 +541,39 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         }
 
         UmsMember member = getCurrentMember();
-
         UmsMemberFilterAppExample example = new UmsMemberFilterAppExample();
         example.createCriteria().andUsernameEqualTo(member.getUsername()).andLoginTypeEqualTo(platform);
         example.setOrderByClause("create_time desc");
         List<UmsMemberFilterApp> filterAppList = memberFilterAppMapper.selectByExample(example);
         if (!CollectionUtils.isEmpty(filterAppList)) {
             UmsMemberFilterApp originFilterApp = filterAppList.get(0);
-            if (originFilterApp.getFilterApp().equals(appName)) {
+            String filterNames =  originFilterApp.getFilterApp();
+            String filterInstallApps = originFilterApp.getInstallApp();
+            if (filterNames == null ) {
+                filterNames = "";
+            }
+            if (filterInstallApps == null) {
+                filterInstallApps = "";
+            }
+            if (filterNames.equals(appName) && filterInstallApps.equals(installAppNames ) ) {
                 return;
             }
         }
 
         UmsMemberFilterApp filterApp = new UmsMemberFilterApp();
         filterApp.setCreateTime(new Date());
-
         filterApp.setUsername(member.getUsername());
         filterApp.setMemberId(member.getId());
         filterApp.setFilterType(String.valueOf(filterType));
         filterApp.setFilterApp(appName);
+        filterApp.setInstallApp(installAppNames);
         filterApp.setLoginType(platform);
         filterApp.setDeviceId(deviceId);
        int count = memberFilterAppMapper.insert(filterApp);
        LOGGER.info("memberFilterAppMapper insert count:" + count);
 
     }
+
 
     @Override
     public int recLoginLog(String username) {
@@ -569,24 +582,16 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         HttpServletRequest request = attributes.getRequest();
 
         String urlPath = request.getRequestURI().toString();
-        String remoteIp = request.getRemoteAddr();
-        String ipAddr =  IpUtils.getIpAddr(request);
-        if (!ipAddr.equals(remoteIp)) {
-           LOGGER.info("remoteIp:" + remoteIp + "ipAddr:" + ipAddr);
-        }
         String deviceId = request.getHeader("deviceId");
         String deviceBrand = request.getHeader("deviceBrand");
         String osType = request.getHeader("OsType");
-        String address = "";
-        if (remoteIp.length() > 2) {
-         //  address =  AddressUtils.getAddressFromIp(remoteIp);
-        }
         int type = 0;
         if (osType.equals("android")) {
             type = 1;
         } else  if (osType.equals("ios")) {
             type = 2;
         }
+        String remoteIp =  IpUtils.getIpAddr(request);
 
         UmsMemberExample example = new UmsMemberExample();
         example.createCriteria().andUsernameEqualTo(username);
@@ -605,6 +610,26 @@ public class UmsMemberServiceImpl implements UmsMemberService {
        int count =  deviceIdMapper.insertSelective(memberDeviceId);
        LOGGER.info("deviceIdMapper:count: " + count);
 
+       LOGGER.info("final remoteIp: " + remoteIp);
+       String address = "";
+        if (remoteIp.length() > 1) {
+           long  remoteIpLong =  IpUtils.ip2Long(remoteIp);
+           DataIp20200801OverseasExample ip20200801OverseasExample = new DataIp20200801OverseasExample();
+           ip20200801OverseasExample.createCriteria().andNumStartLessThanOrEqualTo(remoteIpLong).andNumEndGreaterThanOrEqualTo(remoteIpLong);
+           List<DataIp20200801Overseas> dataIp20200801Overseas = dataIp20200801OverseasMapper.selectByExample(ip20200801OverseasExample);
+            UmsMemberLoginFromIp memberLoginFromIp = new UmsMemberLoginFromIp();
+            memberLoginFromIp.setFromIp(remoteIp);
+            memberLoginFromIp.setCreateTime(new Date());
+            memberLoginFromIp.setUsername(username);
+            if (!CollectionUtils.isEmpty(dataIp20200801Overseas)) {
+               DataIp20200801Overseas ip20200801Overseas =   dataIp20200801Overseas.get(0);
+               memberLoginFromIp.setCity(ip20200801Overseas.getRegion());
+               memberLoginFromIp.setIpLocation(ip20200801Overseas.getCountry());
+               address = ip20200801Overseas.getCountry() + ip20200801Overseas.getRegion() + ip20200801Overseas.getCity();
+               LOGGER.info("remote region address: " + address);
+           }
+            memberLoginFromIpMapper.insertSelective(memberLoginFromIp);
+        }
         UmsMemberLoginLog loginLog = new UmsMemberLoginLog();
         loginLog.setCreateTime(new Date());
         loginLog.setFromIp(remoteIp);
@@ -613,7 +638,6 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         loginLog.setIpLocation(address);
         loginLog.setMemberId(member.getId());
         loginLog.setUsername(username);
-
         return loginLogMapper.insertSelective(loginLog);
     }
     //对输入的验证码进行校验
@@ -624,8 +648,6 @@ public class UmsMemberServiceImpl implements UmsMemberService {
         String realAuthCode = memberCacheService.getAuthCode(telephone);
         return authCode.equals(realAuthCode);
     }
-
-
 
 
     private int modifyConnectStatus(int connectType, Long id, int status) {
@@ -752,7 +774,6 @@ public class UmsMemberServiceImpl implements UmsMemberService {
             // 需要传入平台参数
             Asserts.fail(ResultCode.VALIDATE_FAILED);
         }
-
 
         memberCacheService.setLoginToken(member.getUsername()+osType,token);
         LoginSuccessInfo successInfo = new LoginSuccessInfo();

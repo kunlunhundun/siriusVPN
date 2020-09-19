@@ -8,6 +8,7 @@
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="filter_type" jdbcType="VARCHAR" property="filterType" />
     <result column="filter_app" jdbcType="VARCHAR" property="filterApp" />
+    <result column="install_app" jdbcType="VARCHAR" property="installApp" />
     <result column="login_type" jdbcType="INTEGER" property="loginType" />
     <result column="device_id" jdbcType="VARCHAR" property="deviceId" />
   </resultMap>
@@ -70,7 +71,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, username, member_id, create_time, filter_type, filter_app, login_type, device_id
+    id, username, member_id, create_time, filter_type, filter_app, install_app, login_type, 
+    device_id
   </sql>
   <select id="selectByExample" parameterType="com.sirius.vpn.model.UmsMemberFilterAppExample" resultMap="BaseResultMap">
     select
@@ -107,11 +109,11 @@
       SELECT LAST_INSERT_ID()
     </selectKey>
     insert into ums_member_filter_app (username, member_id, create_time, 
-      filter_type, filter_app, login_type, 
-      device_id)
+      filter_type, filter_app, install_app, 
+      login_type, device_id)
     values (#{username,jdbcType=VARCHAR}, #{memberId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{filterType,jdbcType=VARCHAR}, #{filterApp,jdbcType=VARCHAR}, #{loginType,jdbcType=INTEGER}, 
-      #{deviceId,jdbcType=VARCHAR})
+      #{filterType,jdbcType=VARCHAR}, #{filterApp,jdbcType=VARCHAR}, #{installApp,jdbcType=VARCHAR}, 
+      #{loginType,jdbcType=INTEGER}, #{deviceId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.sirius.vpn.model.UmsMemberFilterApp">
     <selectKey keyProperty="id" order="AFTER" resultType="java.lang.Long">
@@ -133,6 +135,9 @@
       </if>
       <if test="filterApp != null">
         filter_app,
+      </if>
+      <if test="installApp != null">
+        install_app,
       </if>
       <if test="loginType != null">
         login_type,
@@ -156,6 +161,9 @@
       </if>
       <if test="filterApp != null">
         #{filterApp,jdbcType=VARCHAR},
+      </if>
+      <if test="installApp != null">
+        #{installApp,jdbcType=VARCHAR},
       </if>
       <if test="loginType != null">
         #{loginType,jdbcType=INTEGER},
@@ -192,6 +200,9 @@
       <if test="record.filterApp != null">
         filter_app = #{record.filterApp,jdbcType=VARCHAR},
       </if>
+      <if test="record.installApp != null">
+        install_app = #{record.installApp,jdbcType=VARCHAR},
+      </if>
       <if test="record.loginType != null">
         login_type = #{record.loginType,jdbcType=INTEGER},
       </if>
@@ -211,6 +222,7 @@
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       filter_type = #{record.filterType,jdbcType=VARCHAR},
       filter_app = #{record.filterApp,jdbcType=VARCHAR},
+      install_app = #{record.installApp,jdbcType=VARCHAR},
       login_type = #{record.loginType,jdbcType=INTEGER},
       device_id = #{record.deviceId,jdbcType=VARCHAR}
     <if test="_parameter != null">
@@ -235,6 +247,9 @@
       <if test="filterApp != null">
         filter_app = #{filterApp,jdbcType=VARCHAR},
       </if>
+      <if test="installApp != null">
+        install_app = #{installApp,jdbcType=VARCHAR},
+      </if>
       <if test="loginType != null">
         login_type = #{loginType,jdbcType=INTEGER},
       </if>
@@ -251,6 +266,7 @@
       create_time = #{createTime,jdbcType=TIMESTAMP},
       filter_type = #{filterType,jdbcType=VARCHAR},
       filter_app = #{filterApp,jdbcType=VARCHAR},
+      install_app = #{installApp,jdbcType=VARCHAR},
       login_type = #{loginType,jdbcType=INTEGER},
       device_id = #{deviceId,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}

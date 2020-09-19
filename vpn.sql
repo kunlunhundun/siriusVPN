@@ -219,6 +219,7 @@ CREATE TABLE `ums_member_filter_app` (
   `create_time` datetime DEFAULT NULL,
   `filter_type` varchar(64) DEFAULT NULL COMMENT '过滤app->1:不过滤->2:不允许哪些app->3允许哪些APP用',
   `filter_app` varchar(1000) DEFAULT NULL COMMENT 'app名字逗号隔开',
+  `install_app` varchar(1000) DEFAULT NULL COMMENT '安装了那些app；名字逗号隔开',
   `login_type` int(1)  DEFAULT  NULL  COMMENT '登录类型：0->PC；1->android；->ios；',
   `device_id` varchar(64) DEFAULT NULL COMMENT '用户登录的设备唯一号', 
   PRIMARY KEY (`id`)
@@ -429,6 +430,39 @@ CREATE TABLE `ums_member_statistics_info` (
 -- Table structure for ums_product
 -- ----------------------------
 
+DROP TABLE IF EXISTS `ums_product_price`;
+CREATE TABLE `ums_product_price` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `product_name` varchar(64) DEFAULT NULL,
+  `product_sn` varchar(64) NOT NULL COMMENT '货号',
+  `delete_status` int(1) DEFAULT NULL COMMENT '删除状态：0->未删除；1->已删除',
+  `publish_status` int(1) DEFAULT NULL COMMENT '上架状态：0->下架；1->上架',
+  `sort` int(8) DEFAULT NULL COMMENT '排序',
+  `sale` int(11) DEFAULT NULL COMMENT '销量',
+  `month_time` int(8) DEFAULT NULL COMMENT '1个月，半年，1年',
+  `price` decimal(10,2) DEFAULT NULL,
+  `promotion_price` decimal(10,2) DEFAULT NULL COMMENT '促销价格',
+  `original_price` decimal(10,2) DEFAULT NULL COMMENT '市场价',
+  `currency` int(1) DEFAULT '0' COMMENT '币种，0美元，1人民币'
+  `detail_title` varchar(255) DEFAULT NULL,
+  `promotion_start_time` datetime DEFAULT NULL COMMENT '促销开始时间',
+  `promotion_end_time` datetime DEFAULT NULL COMMENT '促销结束时间',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COMMENT='产品定价表';
+
+INSERT INTO `ums_product_price` VALUES ('20','1 month', 'No86577', '0', '1', '1',  '1', '1','20.00', '20.00', '20.00','0','',null,null);
+INSERT INTO `ums_product_price` VALUES ('20','1 month', 'No86578', '0', '1', '1',  '1', '1','20.00', '20.00', '20.00','0','',null,null);
+INSERT INTO `ums_product_price` VALUES ('20','1 month', 'No86579', '0', '1', '1',  '1', '3','20.00', '20.00', '20.00','0','',null,null);
+
+
+-- ----------------------------
+-- Table structure for ums_product_price
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for ums_product
+-- ----------------------------
+
 DROP TABLE IF EXISTS `ums_product`;
 CREATE TABLE `ums_product` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
@@ -625,5 +659,28 @@ CREATE TABLE `ums_member_receive_address` (
 -- ----------------------------
 INSERT INTO `ums_member_receive_address` VALUES ('1', '1', 'tianming', '18033441849', '0', '518000', '广东省', '深圳市', '南山区', '科兴科学园');
 
+
+
+CREATE TABLE `data_ip_20200801_overseas`  (
+  `ip_start` varchar(15) NULL COMMENT '起始IP',
+  `ip_end` varchar(15) NULL COMMENT '结束IP',
+  `num_start` bigint(0) NULL DEFAULT NULL COMMENT '数字起始IP',
+  `num_end` bigint(0) NULL DEFAULT NULL COMMENT '数字结束IP',
+  `num` int(0) NULL DEFAULT NULL COMMENT 'IP数量',
+  `land` varchar(4) NULL COMMENT '大州',
+  `region` varchar(30) NULL COMMENT '省份',
+  `city` varchar(20) NULL COMMENT '城市',
+  `area` varchar(20) NULL COMMENT '区县',
+  `country` varchar(20) NULL COMMENT '国家',
+  `country_english` varchar(50) NULL COMMENT '国家英文',
+  `isp` varchar(40) NULL COMMENT '运营商',
+  `country_id` varchar(10) NULL COMMENT '国家代码',
+  `international_code` varchar(15) NULL COMMENT '国际区号',
+  `region_id` varchar(20) NULL COMMENT '一级行政代码',
+  `city_id` varchar(20) NULL COMMENT '二级行政代码',
+  `area_id` varchar(20) NULL COMMENT '三级行政代码',
+  `lat` varchar(15) NULL COMMENT '经度',
+  `lng` varchar(15) NULL COMMENT '纬度'
+);
 
 

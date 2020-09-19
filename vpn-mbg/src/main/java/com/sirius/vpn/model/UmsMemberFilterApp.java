@@ -19,6 +19,9 @@ public class UmsMemberFilterApp implements Serializable {
     @ApiModelProperty(value = "app名字逗号隔开")
     private String filterApp;
 
+    @ApiModelProperty(value = "安装了那些app；名字逗号隔开")
+    private String installApp;
+
     @ApiModelProperty(value = "登录类型：0->PC；1->android；->ios；")
     private Integer loginType;
 
@@ -75,6 +78,14 @@ public class UmsMemberFilterApp implements Serializable {
         this.filterApp = filterApp;
     }
 
+    public String getInstallApp() {
+        return installApp;
+    }
+
+    public void setInstallApp(String installApp) {
+        this.installApp = installApp;
+    }
+
     public Integer getLoginType() {
         return loginType;
     }
@@ -103,6 +114,7 @@ public class UmsMemberFilterApp implements Serializable {
         sb.append(", createTime=").append(createTime);
         sb.append(", filterType=").append(filterType);
         sb.append(", filterApp=").append(filterApp);
+        sb.append(", installApp=").append(installApp);
         sb.append(", loginType=").append(loginType);
         sb.append(", deviceId=").append(deviceId);
         sb.append(", serialVersionUID=").append(serialVersionUID);
